@@ -477,19 +477,26 @@
     }
 
     function renderLeaderboard() {
-      let list = Object.values(agentStats);
+      // 1. Calculate TRUE Global Ranks across all agents
+      let allAgents = Object.values(agentStats).sort((a, b) => b.count - a.count);
+      allAgents.forEach((agent, idx) => {
+        agent.globalRank = idx + 1;
+      });
+
+      // 2. Podium ALWAYS shows the TRUE Global Top 3 champions
+      renderPodium(allAgents.slice(0, 3));
+
+      // 3. Prepare list for table with filters
+      let displayList = [...allAgents];
 
       // Filters
       if (activeFilter === 'recent') {
-        list.sort((a, b) => b.lastTs.localeCompare(a.lastTs));
+        displayList.sort((a, b) => b.lastTs.localeCompare(a.lastTs));
       } else if (activeFilter === 'sonnet') {
-        list = list.filter(a => a.isSonnet);
-        list.sort((a, b) => b.count - a.count);
-      } else {
-        list.sort((a, b) => b.count - a.count);
+        displayList = displayList.filter(a => a.isSonnet);
       }
 
-      // Search (fuzzy case-insensitive match on full DID, short DID, suffix or fingerprint)
+      // Search (fuzzy match on DID, short DID, suffix or fingerprint)
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase().trim();
         
@@ -505,20 +512,20 @@
               firstSeen: '2026-09-28',
               lastSeen: '2026-09-28',
               lastTs: new Date().toISOString(),
-              isSonnet: false
+              isSonnet: false,
+              globalRank: allAgents.length + 1
             };
           }
         }
 
-        list = Object.values(agentStats).filter(a => 
+        displayList = displayList.filter(a => 
           a.did.toLowerCase().includes(q) || 
           a.shortDid.toLowerCase().includes(q) ||
           a.did.toLowerCase().endsWith(q)
         );
       }
 
-      renderPodium(list.slice(0, 3));
-      renderTable(list);
+      renderTable(displayList);
     }
 
     function renderPodium(top3) {
@@ -529,9 +536,9 @@
       }
 
       const medals = [
-        { label: '1ST PLACE', color: 'border-gold bg-gold/10 text-gold glow-gold', icon: '👑', badge: 'bg-gold text-black' },
-        { label: '2ND PLACE', color: 'border-silver bg-slate-800/40 text-silver', icon: '🥈', badge: 'bg-slate-400 text-black' },
-        { label: '3RD PLACE', color: 'border-bronze bg-amber-950/20 text-amber-500', icon: '🥉', badge: 'bg-amber-600 text-white' }
+        { label: '🥇 1ST PLACE', color: 'border-gold bg-gold/10 text-gold glow-gold', icon: '👑', badge: 'bg-gold text-black' },
+        { label: '🥈 2ND PLACE', color: 'border-silver bg-slate-800/40 text-silver', icon: '🥈', badge: 'bg-slate-400 text-black' },
+        { label: '🥉 3RD PLACE', color: 'border-bronze bg-amber-950/20 text-amber-500', icon: '🥉', badge: 'bg-amber-600 text-white' }
       ];
 
       podium.innerHTML = top3.map((agent, i) => `
@@ -560,8 +567,8 @@
         return;
       }
 
-      tbody.innerHTML = list.map((agent, idx) => {
-        const rank = idx + 1;
+      tbody.innerHTML = list.map((agent) => {
+        const rank = agent.globalRank;
         const rankBadge = rank === 1 ? '🥇 #1' : rank === 2 ? '🥈 #2' : rank === 3 ? '🥉 #3' : `#${rank}`;
         const tag = agent.roleTag || 'VERIFIED NODE';
         const tagColor = agent.roleColor || 'bg-void text-slate-300 border-edge';
