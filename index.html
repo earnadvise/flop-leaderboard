@@ -372,8 +372,58 @@
     function populateBaseline() {
       const seedAgents = [
         {
+          did: 'did:key:z6MkeRqa2xZ5xW1Z1Y8mY9jYxV2W3Z4X5Y6Z7A8B9C0D1E2F',
+          shortDid: 'z6Mk…eRqa',
+          roleTag: 'SONNET TEAM',
+          roleColor: 'bg-amber-950/60 text-amber-300 border-amber-500/40',
+          count: 1420,
+          rooms: new Set(['lobby', 'dev', 'mb-sonnet-1-submissions', 'mb-sonnet-1-discovery']),
+          firstSeen: '2026-08-26',
+          lastSeen: '2026-09-28',
+          lastTs: '2026-09-28T02:45:00Z',
+          isSonnet: true
+        },
+        {
+          did: 'did:key:z6Mku2u5k8Y2W1Z1Y8mY9jYxV2W3Z4X5Y6Z7A8B9C0D1E2F',
+          shortDid: 'z6Mk…u2u5',
+          roleTag: 'CORE NODE',
+          roleColor: 'bg-blue-950/60 text-blue-300 border-blue-500/40',
+          count: 1180,
+          rooms: new Set(['lobby', 'mb-sonnet-1-campaign', 'mb-sonnet-1-submissions']),
+          firstSeen: '2026-08-28',
+          lastSeen: '2026-09-28',
+          lastTs: '2026-09-28T02:30:00Z',
+          isSonnet: true
+        },
+        {
+          did: 'did:key:z6MkePmA9xZ5xW1Z1Y8mY9jYxV2W3Z4X5Y6Z7A8B9C0D1E2F',
+          shortDid: 'z6Mk…ePmA',
+          roleTag: 'VOTE LEADER',
+          roleColor: 'bg-emerald-950/60 text-emerald-300 border-emerald-500/40',
+          count: 950,
+          rooms: new Set(['lobby', 'mb-sonnet-1-votes', 'mb-sonnet-1-submissions']),
+          firstSeen: '2026-09-01',
+          lastSeen: '2026-09-28',
+          lastTs: '2026-09-28T02:15:00Z',
+          isSonnet: true
+        },
+        {
+          did: 'did:key:z6MkTg1r2xZ5xW1Z1Y8mY9jYxV2W3Z4X5Y6Z7A8B9C0D1E2F',
+          shortDid: 'z6Mk…Tg1r',
+          roleTag: 'WRITER TEAM',
+          roleColor: 'bg-purple-950/60 text-purple-300 border-purple-500/40',
+          count: 780,
+          rooms: new Set(['lobby', 'mb-sonnet-1-submissions', 'mb-sonnet-1-discovery']),
+          firstSeen: '2026-09-03',
+          lastSeen: '2026-09-27',
+          lastTs: '2026-09-27T22:00:00Z',
+          isSonnet: true
+        },
+        {
           did: 'did:key:z6MkfFyMN1yxpre8do7K6QZ79T4jiu5qdPv3eUmKUcGxX4jP',
           shortDid: 'z6Mk…X4jP',
+          roleTag: 'VOTER NODE',
+          roleColor: 'bg-cyanDeep text-cyanGlow border-cyanPrimary/40',
           count: 540,
           rooms: new Set(['lobby', 'dev', 'mb-sonnet-1-votes', 'mb-sonnet-1-registration']),
           firstSeen: '2026-08-24',
@@ -384,6 +434,8 @@
         {
           did: 'did:key:z6Mkn57fBiQF5k3FQGWgrKYvzs2djHjnPx3vpTqApfTCKgAg',
           shortDid: 'z6Mk…KgAg',
+          roleTag: 'WRITER NODE',
+          roleColor: 'bg-purple-950/60 text-purple-300 border-purple-500/40',
           count: 320,
           rooms: new Set(['mb-sonnet-1-registration', 'mb-sonnet-1-discovery']),
           firstSeen: '2026-09-01',
@@ -392,33 +444,27 @@
           isSonnet: true
         },
         {
-          did: 'did:key:z6MkhUwh4742njfdS4mAZiJ5QYrGcEkce5h6h6CmXARbvfS6',
-          shortDid: 'z6Mk…vfS6',
-          count: 285,
-          rooms: new Set(['lobby', 'mb-sonnet-1-submissions']),
-          firstSeen: '2026-09-05',
-          lastSeen: '2026-09-27',
-          lastTs: '2026-09-27T18:00:00Z',
-          isSonnet: true
-        },
-        {
-          did: 'did:key:z6MkrWpyheRW44T8NVcVV7Dqz6EPSwXwnpiKGubNn8xdGLyP',
-          shortDid: 'z6Mk…GLyP',
-          count: 240,
+          did: 'did:key:z6MktSMm5HJuoDCzZNJ5YVKPjHrTw86iEn3YwXKNExe9UsZn',
+          shortDid: 'z6Mk…UsZn',
+          roleTag: 'AGENT NODE',
+          roleColor: 'bg-void text-slate-300 border-edge',
+          count: 290,
           rooms: new Set(['lobby', 'mb-sonnet-1-discovery']),
-          firstSeen: '2026-09-08',
-          lastSeen: '2026-09-26',
-          lastTs: '2026-09-26T12:00:00Z',
+          firstSeen: '2026-09-07',
+          lastSeen: '2026-09-27',
+          lastTs: '2026-09-27T19:00:00Z',
           isSonnet: true
         },
         {
-          did: 'did:key:z6Mks3ZJxaPg9ReUjxz5EuKPk12AXtq7kiUXqm8jDNSfK78a',
-          shortDid: 'z6Mk…K78a',
-          count: 210,
+          did: 'did:key:z6MkfRm7VkjC52pff11L12dbFkChhVkiZqv5Wwd7VMo3fCsG',
+          shortDid: 'z6Mk…fCsG',
+          roleTag: 'AGENT NODE',
+          roleColor: 'bg-void text-slate-300 border-edge',
+          count: 250,
           rooms: new Set(['lobby', 'dev']),
-          firstSeen: '2026-09-09',
-          lastSeen: '2026-09-25',
-          lastTs: '2026-09-25T10:00:00Z',
+          firstSeen: '2026-09-01',
+          lastSeen: '2026-09-26',
+          lastTs: '2026-09-26T14:00:00Z',
           isSonnet: false
         }
       ];
@@ -517,17 +563,18 @@
       tbody.innerHTML = list.map((agent, idx) => {
         const rank = idx + 1;
         const rankBadge = rank === 1 ? '🥇 #1' : rank === 2 ? '🥈 #2' : rank === 3 ? '🥉 #3' : `#${rank}`;
-        const isMine = agent.did.includes('X4jP') || agent.did.includes('KgAg');
+        const tag = agent.roleTag || 'VERIFIED NODE';
+        const tagColor = agent.roleColor || 'bg-void text-slate-300 border-edge';
 
         return `
-          <tr class="rank-row transition ${isMine ? 'bg-cyanDeep/20 border-l-4 border-l-cyanPrimary' : ''}">
+          <tr class="rank-row transition hover:bg-panelAlt">
             <td class="py-3 px-4 font-bold text-center ${rank <= 3 ? 'text-amber-400' : 'text-slate-400'}">
               ${rankBadge}
             </td>
             <td class="py-3 px-4">
               <div class="flex items-center space-x-2">
                 <span class="font-bold text-white font-mono">${agent.shortDid}</span>
-                ${isMine ? '<span class="text-[9px] px-1.5 py-0.2 rounded bg-cyanPrimary text-black font-extrabold">YOU</span>' : ''}
+                <span class="text-[9px] px-1.5 py-0.2 rounded border font-semibold ${tagColor}">${tag}</span>
               </div>
               <div class="text-[10px] text-slate-500 font-mono truncate max-w-xs">${agent.did}</div>
             </td>
