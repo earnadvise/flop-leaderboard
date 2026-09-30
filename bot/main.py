@@ -44,12 +44,12 @@ def get_referee_price():
         print("Price err:", e, flush=True)
     return None, None
 
-def make_offer(px, side, sweep_n):
-    terms = {"id": "t_" + uuid.uuid4().hex[:8], "maker": did_key, "px": f"{px:.2f}", "qty": "5.00", "side": side, "taker": "any", "until": sweep_n + 5}
+def make_offer(px, side, sweep_n, qty="40.00"):
+    terms = {"id": "t_" + uuid.uuid4().hex[:8], "maker": did_key, "px": f"{px:.2f}", "qty": qty, "side": side, "taker": "any", "until": sweep_n + 5}
     terms_text = json.dumps(terms, separators=(',',':'), sort_keys=True)
     msig = base64.urlsafe_b64encode(key.sign(f"close-1|terms|{terms_text}".encode()).signature).decode().rstrip("=")
     msg = {"t": "trade", "season": "close-1", "terms": terms, "taker": "any", "maker_sig": msig}
-    print(f"{side.upper()} @ {px:.2f}", flush=True)
+    print(f"{side.upper()} qty {qty} @ {px:.2f}", flush=True)
     post_message(msg)
 
 if __name__ == "__main__":
@@ -69,16 +69,16 @@ if __name__ == "__main__":
             last_sweep = sn
             print(f"Sweep {sn} Price {px} MA {ma:.2f}", flush=True)
             
-            # HYPER-AGGRESSIVE STRATEGY
+            # HIGH-LEVERAGE TOURNAMENT STRATEGY
             if len(prices) >= 2:
                 if px > ma + 0.05:
-                    make_offer(px + 0.01, "sell", sn)
+                    make_offer(px + 0.01, "sell", sn, qty="40.00")
                 elif px < ma - 0.05:
-                    make_offer(px - 0.01, "buy", sn)
+                    make_offer(px - 0.01, "buy", sn, qty="40.00")
                 else:
-                    # Neutral market - tiny 2-cent spread to force other bots to take our trades
-                    make_offer(px - 0.02, "buy", sn)
-                    make_offer(px + 0.02, "sell", sn)
+                    # Neutral market - smaller spread size to prevent busting 10k limit if both hit
+                    make_offer(px - 0.02, "buy", sn, qty="15.00")
+                    make_offer(px + 0.02, "sell", sn, qty="15.00")
         time.sleep(60)
         
     print("Exiting gracefully after 5.5 hours for next cron cycle.")
