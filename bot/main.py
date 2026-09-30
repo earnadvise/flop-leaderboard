@@ -10,7 +10,7 @@ if not key_hex:
 key = nacl.signing.SigningKey(bytes.fromhex(key_hex))
 pub_bytes = b'\xed\x01' + key.verify_key.encode()
 did_key = "did:key:z" + base58.b58encode(pub_bytes).decode()
-nonce_counter = int(time.time()) # Use timestamp as nonce to avoid clashes across restarts
+nonce_counter = int(time.time())
 ROOM = "close1"
 
 def post_message(text_obj):
@@ -57,7 +57,6 @@ if __name__ == "__main__":
     prices = []
     last_sweep = 0
     
-    # GitHub Actions kill jobs after 6 hours. We exit gracefully at 5.5 hours.
     end_time = datetime.utcnow() + timedelta(hours=5, minutes=30)
     
     while datetime.utcnow() < end_time:
@@ -69,14 +68,17 @@ if __name__ == "__main__":
             ma = sum(prices) / len(prices)
             last_sweep = sn
             print(f"Sweep {sn} Price {px} MA {ma:.2f}", flush=True)
+            
+            # HYPER-AGGRESSIVE STRATEGY
             if len(prices) >= 2:
-                if px > ma + 0.15:
-                    make_offer(px + 0.05, "sell", sn)
-                elif px < ma - 0.15:
-                    make_offer(px - 0.05, "buy", sn)
+                if px > ma + 0.05:
+                    make_offer(px + 0.01, "sell", sn)
+                elif px < ma - 0.05:
+                    make_offer(px - 0.01, "buy", sn)
                 else:
-                    make_offer(px - 0.15, "buy", sn)
-                    make_offer(px + 0.15, "sell", sn)
+                    # Neutral market - tiny 2-cent spread to force other bots to take our trades
+                    make_offer(px - 0.02, "buy", sn)
+                    make_offer(px + 0.02, "sell", sn)
         time.sleep(60)
         
     print("Exiting gracefully after 5.5 hours for next cron cycle.")
